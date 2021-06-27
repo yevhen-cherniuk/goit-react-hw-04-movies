@@ -1,15 +1,9 @@
 import React, { Component } from "react";
 import { NavLink } from "react-router-dom";
 import PropTypes from "prop-types";
-//Fetch
 import { fetchMovieDetails } from "../services/fetchMoviesApi";
-//Routes
 import routes from "../routes";
-//components
 import Loader from "react-loader-spinner";
-
-//styles
-// import "./MovieDetailsPage.scss";
 
 class MovieDetailsPage extends Component {
   static propTypes = {

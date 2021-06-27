@@ -1,14 +1,8 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-//Fetch
 import { fetchSearch } from "../services/fetchMoviesApi";
-//Components
 import MovieList from "../components/MovieList/MovieList";
-// import BackgroundLayout from "../layout/BackgroundLayout";
-//loader
 import Loader from "react-loader-spinner";
-//style
-// import "./MoviesSearch.scss";
 
 export class MoviesPage extends Component {
   state = {

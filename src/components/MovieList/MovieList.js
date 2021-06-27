@@ -1,10 +1,7 @@
 import React from "react";
 import { Link, withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
-
-//Routes
 import routes from "../../routes";
-//Components
 import MoviePreview from "../MoviePreview/MoviePreview";
 import Notification from "../Notification/Notification";
 

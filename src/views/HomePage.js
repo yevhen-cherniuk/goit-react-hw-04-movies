@@ -1,13 +1,7 @@
 import React, { Component } from "react";
-
-//Components
 import MovieList from "../components/MovieList/MovieList";
-//loader
 import Loader from "react-loader-spinner";
-//Fetch
 import { fetchTrendingMovies } from "../services/fetchMoviesApi";
-//Style
-// import "./HomePage.scss";
 
 class HomePage extends Component {
   state = {
@@ -35,7 +29,7 @@ class HomePage extends Component {
             width={80}
           />
         ) : (
-          <MovieList movies={movies} /*from={this.props.location}*/ />
+          <MovieList movies={movies}/>
         )}
       </>
     );
