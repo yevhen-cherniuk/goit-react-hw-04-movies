@@ -1,0 +1,20 @@
+.listNav {
+  display: flex;
+  padding: 0;
+  margin: 0 auto;
+  list-style: none;
+  font-size: 23px;
+}
+
+.NavLink {
+  text-decoration: none;
+}
+
+.NavLink:hover,
+.NavLink:focus {
+  text-decoration-line: underline;
+}
+
+.ItemNav {
+  margin-right: 40px;
+}
