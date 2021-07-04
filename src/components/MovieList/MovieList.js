@@ -1,38 +1,23 @@
-import React from "react";
-import { Link, withRouter } from "react-router-dom";
-import PropTypes from "prop-types";
-import routes from "../../routes";
-import MoviePreview from "../MoviePreview/MoviePreview";
-import Notification from "../Notification/Notification";
+import { NavLink } from "react-router-dom";
 
-const MovieList = ({ movies, location, error }) => {
-  return error ? (
-    <Notification />
-  ) : (
-    <ul className="MovieList">
-      {movies.map((movie) => (
-        <li key={movie.id} className="MovieList--item">
-          <Link
+const FilmList = ({ movies, history, query }) => {
+  console.log("FilmList", query);
+  return (
+    <ul>
+      {movies.map(({ id, title }) => (
+        <li key={id}>
+          <NavLink
             to={{
-              pathname: `${routes.movies}/${movie.id}`,
-              state: { from: location },
+              pathname: `/movies/${id}`,
+              state: { id, from: history.location.pathname, query },
             }}
           >
-            <MoviePreview
-              title={movie.title}
-              poster={movie.poster_path}
-              id={movie.id}
-            />
-          </Link>
+            {title}
+          </NavLink>
         </li>
       ))}
     </ul>
   );
 };
 
-MovieList.propTypes = {
-  movies: PropTypes.array.isRequired,
-  location: PropTypes.object.isRequired,
-};
-
-export default withRouter(MovieList);
+export default FilmList;

@@ -1,45 +1,25 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import { fetchCast } from "../../services/fetchMoviesApi";
-import Loader from "react-loader-spinner";
+import { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
+import { getCastInfo } from "../../services/fetchApi";
 
-class Cast extends Component {
-  static propTypes = {
-    match: PropTypes.object.isRequired,
-  };
+const Cast = () => {
+  const history = useHistory();
+  console.log("cast", history);
+  const [cast, setCast] = useState([]);
 
-  state = {
-    cast: [],
-    isLoading: false,
-  };
+  useEffect(() => {
+    getCastInfo(history.location.state.id).then((resp) =>
+      setCast(resp.data.cast)
+    );
+  }, [history.location.state.id]);
 
-  async componentDidMount() {
-    this.setState({ isLoading: true });
-
-    const cast = await fetchCast(this.props.match.params.movieId);
-
-    this.setState({ cast: cast, isLoading: false });
-  }
-
-  render() {
-    const { cast, isLoading } = this.state;
-
-    if (isLoading) {
-      return (
-        <Loader
-            Loader type="Grid"
-            color="#00BFFF"
-            height={80}
-            width={80}
-        />
-      );
-    }
-
-    return (
-      <div>
+  return (
+    <>
+      <h1>Cast</h1>
+      <ul>
         {cast.length > 0 ? (
-          <ul className="Cast">
-            {cast.map(({ name, cast_id, character, profile_path }) => (
+         <ul className="Cast">
+      {cast.map(({ name, cast_id, character, profile_path }) => (
               <li key={cast_id} className="Cast--item">
                 {profile_path ? (
                   <img
@@ -59,13 +39,11 @@ class Cast extends Component {
             ))}
           </ul>
         ) : (
-          <div style={{ textAlign: "center" }}>
-            <p>We don't have any information about cast for this movie.</p>
-          </div>
+          <li>Not found any cast</li>
         )}
-      </div>
-    );
-  }
-}
+      </ul>
+    </>
+  );
+};
 
 export default Cast;

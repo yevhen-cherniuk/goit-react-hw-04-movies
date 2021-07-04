@@ -1,9 +1,10 @@
-import React, { Component } from "react";
-import MovieList from "../components/MovieList/MovieList";
+import { getTrendingFilms } from "../services/fetchApi";
+import FilmList from "../components/MovieList/MovieList";
+import { Component } from "react";
 import Loader from "react-loader-spinner";
-import { fetchTrendingMovies } from "../services/fetchMoviesApi";
 
-class HomePage extends Component {
+
+class Home extends Component {
   state = {
     movies: [],
     isLoading: false,
@@ -11,13 +12,12 @@ class HomePage extends Component {
 
   async componentDidMount() {
     this.setState({ isLoading: true });
-    const trendingMovies = await fetchTrendingMovies();
-
-    this.setState({ movies: trendingMovies, isLoading: false });
+    const response = await getTrendingFilms();
+    this.setState({ movies: response.data.results,isLoading: false });
   }
 
   render() {
-    const { movies, isLoading } = this.state;
+    const { movies,isLoading } = this.state;
     return (
       <>
         <h2 className="HomePage--title">Trending today</h2>
@@ -29,11 +29,10 @@ class HomePage extends Component {
             width={80}
           />
         ) : (
-          <MovieList movies={movies}/>
+          <FilmList movies={movies} history={this.props.history} />
         )}
       </>
     );
   }
 }
-
-export default HomePage;
+export default Home;

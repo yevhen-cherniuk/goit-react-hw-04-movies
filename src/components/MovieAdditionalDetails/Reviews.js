@@ -1,42 +1,26 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import { fetchReviews } from "../../services/fetchMoviesApi";
-import Loader from "react-loader-spinner";
+import { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
+import { getReviewsInfo } from "../../services/fetchApi";
 
-class Reviews extends Component {
-  static propTypes = {
-    match: PropTypes.object.isRequired,
-  };
+const Reviews = () => {
+  const history = useHistory();
+  console.log("cast", history);
+  const [reviews, setReviews] = useState([]);
 
-  state = {
-    reviews: [],
-    isLoading: false,
-  };
+  useEffect(() => {
+    getReviewsInfo(history.location.state.id).then((resp) =>
+      setReviews(resp.data.results)
+    );
+  }, [history.location.state.id]);
 
-  async componentDidMount() {
-    this.setState({ isLoading: true });
-
-    const reviews = await fetchReviews(this.props.match.params.movieId);
-
-    this.setState({ reviews: reviews, isLoading: false });
-  }
-
-  render() {
-    const { reviews, isLoading } = this.state;
-    if (isLoading) {
-      return (
-        <Loader
-            Loader type="Grid"
-            color="#00BFFF"
-            height={80}
-            width={80}
-        />
-      );
-    }
-    return reviews.length > 0 ? (
-      <div>
-        <ul className="Reviews">
-          {reviews.map(({ author, content, id }) => (
+  return (
+    <>
+      <h1>Reviews</h1>
+      <ul>
+        {reviews.length > 0 ? (
+          <div>
+         <ul className="Reviews">
+           {reviews.map(({ author, content, id }) => (
             <li key={id} className="Reviews--item">
               <h4 className="title">Author: {author}</h4>
               <p className="text">{content}</p>
@@ -44,12 +28,14 @@ class Reviews extends Component {
           ))}
         </ul>
       </div>
-    ) : (
-      <div style={{ textAlign: "center" }}>
-        <p>We don't have any review for this movie.</p>
-      </div>
-    );
-  }
-}
+        ) : (
+          <div style={{ textAlign: "center" }}>
+         <p>We don't have any review for this movie.</p>
+       </div>
+        )}
+      </ul>
+    </>
+  );
+};
 
 export default Reviews;
